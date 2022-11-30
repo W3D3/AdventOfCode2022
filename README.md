@@ -18,7 +18,7 @@ where `{day number}` is the day and `{session cookie}` is your AoC session cooki
 To run all the solutions with the example test data, run:
 
 ```shell
-./gradlew run test
+./gradlew test
 ```
 
 ## Solutions

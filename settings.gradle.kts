@@ -1,2 +1,2 @@
-rootProject.name = "AdventOfCode2021"
+rootProject.name = "AdventOfCode2022"
 include("app")
