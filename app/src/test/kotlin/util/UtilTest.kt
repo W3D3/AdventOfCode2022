@@ -2,8 +2,9 @@ package day01
 
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
+import util.split
 
-class Day01Test : FreeSpec({
+class UtilTest : FreeSpec({
 
     val sampleInput: List<String> = """
         1000
@@ -22,12 +23,18 @@ class Day01Test : FreeSpec({
         10000
     """.trimIndent().split("\n")
 
-    val sampleSolutionPart1 = 24000
-    val sampleSolutionPart2 = 45000
+    val splitByEmpty = listOf<Collection<String>>(
+        listOf("1000", "2000", "3000"),
+        listOf("4000"),
+        listOf("5000", "6000"),
+        listOf("7000", "8000", "9000"),
+        listOf("10000"),
+    )
+    val sampleSolutionPart2 = 5
 
-    "Solving day 1" - {
+    "ListTranformer" - {
         "part 1 for the sample input should return the correct output" {
-            solveDay01Part1(sampleInput) shouldBe sampleSolutionPart1
+            sampleInput.split({ i -> i.isEmpty() }) shouldBe splitByEmpty
         }
 
         "part 2 for the sample input should return the correct output" {

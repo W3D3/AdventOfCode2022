@@ -3,6 +3,7 @@
 
 # Ignore Gradle build output directory
 build
+out
 
 # properties where you could store your session cookie
 gradle.properties

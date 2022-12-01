@@ -3,6 +3,7 @@ package day01
 import common.InputRepo
 import common.readSessionCookie
 import common.solve
+import util.split
 
 fun main(args: Array<String>) {
     val day = 1
@@ -12,9 +13,13 @@ fun main(args: Array<String>) {
 }
 
 fun solveDay01Part1(input: List<String>): Int {
-    TODO()
+    return input.split({ it.isEmpty() })
+        .maxOf { it.sumOf(String::toInt) }
 }
 
 fun solveDay01Part2(input: List<String>): Int {
-    TODO()
+    return input.split({ it.isEmpty() })
+        .map { it.sumOf(String::toInt) }
+        .sortedDescending().subList(0, 3)
+        .sum()
 }
