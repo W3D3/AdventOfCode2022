@@ -23,6 +23,6 @@ To run all the solutions with the example test data, run:
 
 ## Solutions
 
-| Day | Title                                               | Solution                                           |
-|-----|-----------------------------------------------------|----------------------------------------------------|
-| 1   | ❓ [Unreleased](https://adventofcode.com/2022/day/1) | **[Day01.kt](app/src/main/kotlin/day01/Day01.kt)** |
+| Day | Title                                                       | Solution                                           |
+|-----|-------------------------------------------------------------|----------------------------------------------------|
+| 1   | 🍔 [Calorie Counting ](https://adventofcode.com/2022/day/1) | **[Day01.kt](app/src/main/kotlin/day01/Day01.kt)** |
