@@ -3,6 +3,7 @@ package day02
 import common.InputRepo
 import common.readSessionCookie
 import common.solve
+import util.splitIntoPair
 
 
 fun main(args: Array<String>) {
@@ -13,10 +14,10 @@ fun main(args: Array<String>) {
 }
 
 fun solveDay02Part1(input: List<String>): Int {
-    val moves = input.map { s -> s.split(" ")[0] to s.split(" ")[1] }
-        .map { pair -> mapOpponentShape(pair.first) to mapPlayerShape(pair.second) }
+    val games = input.map { s -> s.splitIntoPair(" ") }
+        .map { (opponentChar, playerChar) -> mapOpponentShape(opponentChar) to mapPlayerShape(playerChar) }
 
-    return moves.sumOf { (opponentMove, playerMove) ->
+    return games.sumOf { (opponentMove, playerMove) ->
         playGame(
             playerMove, opponentMove
         ).score + playerMove.shapeScore
@@ -26,10 +27,11 @@ fun solveDay02Part1(input: List<String>): Int {
 fun solveDay02Part2(input: List<String>): Int {
     val desiredOutcomes = input.map { s -> s.split(" ")[0] to s.split(" ")[1] }
         .map { pair -> mapOpponentShape(pair.first) to mapGameOutcome(pair.second) }
-    val moves =
-        desiredOutcomes.map { (opponentMove, desiredOutcome) -> opponentMove to getShape(opponentMove, desiredOutcome) }
+    val games = desiredOutcomes.map { (opponentMove, desiredOutcome) ->
+        opponentMove to getPlayerShape(opponentMove, desiredOutcome)
+    }
 
-    return moves.sumOf { (opponentMove, playerMove) ->
+    return games.sumOf { (opponentMove, playerMove) ->
         playGame(
             playerMove, opponentMove
         ).score + playerMove.shapeScore
@@ -82,7 +84,7 @@ fun playGame(playerShape: Shape, opponentShape: Shape): GameOutcome {
     }
 }
 
-fun getShape(opponentShape: Shape, outcome: GameOutcome): Shape {
+fun getPlayerShape(opponentShape: Shape, outcome: GameOutcome): Shape {
     return when (outcome) {
         GameOutcome.DRAW -> {
             opponentShape
