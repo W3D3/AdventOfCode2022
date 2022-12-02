@@ -1,8 +1,7 @@
-package day01
+package util
 
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
-import util.split
 
 class UtilTest : FreeSpec({
 
@@ -32,13 +31,9 @@ class UtilTest : FreeSpec({
     )
     val sampleSolutionPart2 = 5
 
-    "ListTranformer" - {
-        "part 1 for the sample input should return the correct output" {
+    "ListTransformer" - {
+        "splits correctly" {
             sampleInput.split({ i -> i.isEmpty() }) shouldBe splitByEmpty
-        }
-
-        "part 2 for the sample input should return the correct output" {
-            solveDay01Part2(sampleInput) shouldBe sampleSolutionPart2
         }
     }
 })
