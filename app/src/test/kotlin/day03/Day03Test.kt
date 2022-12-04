@@ -1,30 +1,22 @@
 package day03
 
-import io.kotest.core.annotation.Ignored
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 
-@Ignored
 class Day03Test : FreeSpec({
 
-    val sampleInput: List<String> = listOf(
-        "00100",
-        "11110",
-        "10110",
-        "10111",
-        "10101",
-        "01111",
-        "00111",
-        "11100",
-        "10000",
-        "11001",
-        "00010",
-        "01010",
-    )
+    val sampleInput: List<String> = """
+        vJrwpWtwJgWrhcsFMMfFFhFp
+        jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL
+        PmmdzqPrVvPwwTWBwg
+        wMqvLMZHhHMvwLHjbvcjnnSBnvTQFn
+        ttgJtRGJQctTZtZT
+        CrZsJsPPZsGzwwsLwLmpwMDw
+    """.trimIndent().split("\n")
 
-    val sampleSolutionPart1 = 198
+    val sampleSolutionPart1 = 157
 
-    val sampleSolutionPart2 = 230
+    val sampleSolutionPart2 = 70
 
     "Solving day 2" - {
         "part 1 for the sample input should return the correct output" {

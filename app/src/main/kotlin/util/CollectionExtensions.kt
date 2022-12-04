@@ -30,3 +30,7 @@ fun <T> Collection<T>.split(
     }
     return result
 }
+
+fun <T> intersection(vararg collections: Collection<T>): Collection<T> {
+    return collections.toList().reduce { acc: Collection<T>, ts -> acc.intersect(ts.toSet()) }
+}
