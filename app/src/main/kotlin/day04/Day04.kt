@@ -3,6 +3,7 @@ package day04
 import common.InputRepo
 import common.readSessionCookie
 import common.solve
+import util.fullyContains
 import util.splitIntoPair
 
 fun main(args: Array<String>) {
@@ -13,29 +14,25 @@ fun main(args: Array<String>) {
 }
 
 fun solveDay04Part1(input: List<String>): Int {
-    val sum = input.map { it.splitIntoPair(",") }
-        .map { (left, right) ->
-            val leftPair = left.splitIntoPair("-")
-            val rightPair = right.splitIntoPair("-")
-
-            IntRange(leftPair.first.toInt(), leftPair.second.toInt()) to
-                    IntRange(rightPair.first.toInt(), rightPair.second.toInt())
+    val sum: Int = mapToRanges(input)
+        .map { (range1, range2) ->
+            range1.fullyContains(range2) || range2.fullyContains(range1)
         }
-        .map { (range1, range2) -> range1.all { range2.contains(it) } || range2.all { range1.contains(it) } }
-        .sumOf { b: Boolean -> if (b) 1L else 0L }
-    return sum.toInt()
+        .count { it }
+    return sum
 }
 
 fun solveDay04Part2(input: List<String>): Int {
-    val sum = input.map { it.splitIntoPair(",") }
-        .map { (left, right) ->
-            val leftPair = left.splitIntoPair("-")
-            val rightPair = right.splitIntoPair("-")
-
-            IntRange(leftPair.first.toInt(), leftPair.second.toInt()) to
-                    IntRange(rightPair.first.toInt(), rightPair.second.toInt())
-        }
+    return mapToRanges(input)
         .map { (range1, range2) -> range1.any { range2.contains(it) } }
-        .sumOf { b: Boolean -> if (b) 1L else 0L }
-    return sum.toInt()
+        .count { it }
 }
+
+private fun mapToRanges(input: List<String>) = input.map { it.splitIntoPair(",") }
+    .map { (left, right) ->
+        val leftPair = left.splitIntoPair("-")
+        val rightPair = right.splitIntoPair("-")
+
+        IntRange(leftPair.first.toInt(), leftPair.second.toInt()) to
+                IntRange(rightPair.first.toInt(), rightPair.second.toInt())
+    }

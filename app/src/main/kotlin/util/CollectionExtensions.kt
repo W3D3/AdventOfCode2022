@@ -34,3 +34,7 @@ fun <T> Collection<T>.split(
 fun <T> intersection(vararg collections: Collection<T>): Collection<T> {
     return collections.toList().reduce { acc: Collection<T>, ts -> acc.intersect(ts.toSet()) }
 }
+
+fun <T : Comparable<T>> ClosedRange<T>.fullyContains(range: ClosedRange<T>): Boolean {
+    return this.contains(range.start) && this.contains(range.endInclusive)
+}
