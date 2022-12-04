@@ -23,6 +23,9 @@ To run all the solutions with the example test data, run:
 
 ## Solutions
 
-| Day | Title                                                       | Solution                                           |
-|-----|-------------------------------------------------------------|----------------------------------------------------|
-| 1   | 🍔 [Calorie Counting ](https://adventofcode.com/2022/day/1) | **[Day01.kt](app/src/main/kotlin/day01/Day01.kt)** |
+| Day | Title                                                             | Solution                                           |
+|-----|-------------------------------------------------------------------|----------------------------------------------------|
+| 1   | 🍔 [Calorie Counting](https://adventofcode.com/2022/day/1)        | **[Day01.kt](app/src/main/kotlin/day01/Day01.kt)** |
+| 2   | 🪨📄✂️ [Rock Paper Scissors](https://adventofcode.com/2022/day/2) | **[Day02.kt](app/src/main/kotlin/day02/Day02.kt)** |
+| 3   | 🎒 [Rucksack Reorganization](https://adventofcode.com/2022/day/3) | **[Day03.kt](app/src/main/kotlin/day03/Day03.kt)** |
+| 4   | 🧹 [Camp Cleanup](https://adventofcode.com/2022/day/4)            | **[Day04.kt](app/src/main/kotlin/day04/Day04.kt)** |
