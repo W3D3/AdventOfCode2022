@@ -11,7 +11,7 @@ fun <T> List<T>.mutableCopyOf(): MutableList<T> {
 fun <T> Collection<T>.split(
     condition: (element: T) -> Boolean,
     discardSplit: Boolean = true
-): Collection<Collection<T>> {
+): List<Collection<T>> {
     val result = mutableListOf<Collection<T>>()
     val list = mutableListOf<T>()
     for (element: T in this) {

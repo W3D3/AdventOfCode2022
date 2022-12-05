@@ -4,7 +4,7 @@ import kotlin.time.ExperimentalTime
 import kotlin.time.measureTimedValue
 
 typealias Input = List<String>
-typealias Solution = Number
+typealias Solution = Any
 typealias SolvingFun = (Input) -> Solution
 
 fun solve(

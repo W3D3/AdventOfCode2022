@@ -1,6 +1,5 @@
 package common
 
-import com.github.kittinunf.fuel.core.FuelError
 import com.github.kittinunf.fuel.core.Headers
 import com.github.kittinunf.fuel.core.Response
 import com.github.kittinunf.fuel.httpGet
@@ -46,15 +45,15 @@ class InputRepo(
             .responseString()
 
         when (result) {
-            is Result.Success -> return result.get().trim()
+            is Result.Success -> return result.get()
             is Result.Failure -> {
-                printError(day, response, result)
+                printError(day, response)
                 exitProcess(1)
             }
         }
     }
 
-    private fun printError(day: Int, response: Response, result: Result.Failure<FuelError>) {
+    private fun printError(day: Int, response: Response) {
         println("\nError downloading the input for $year day $day. ${response.statusCode}: ${response.responseMessage}")
         when (response.statusCode) {
             404 -> println("Did you wake up too early?")

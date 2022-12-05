@@ -9,21 +9,20 @@ class Day05Test : FreeSpec({
 
     val sampleInput: List<String> =
         """
-            0,9 -> 5,9
-            8,0 -> 0,8
-            9,4 -> 3,4
-            2,2 -> 2,1
-            7,0 -> 7,4
-            6,4 -> 2,0
-            0,9 -> 2,9
-            3,4 -> 1,4
-            0,0 -> 8,8
-            5,5 -> 8,2
+            [D]    
+        [N] [C]    
+        [Z] [M] [P]
+         1   2   3 
+        
+        move 1 from 2 to 1
+        move 3 from 1 to 3
+        move 2 from 2 to 1
+        move 1 from 1 to 2
         """.trimIndent().split("\n")
 
-    val sampleSolutionPart1 = 5
+    val sampleSolutionPart1 = "CMZ"
 
-    val sampleSolutionPart2 = 12
+    val sampleSolutionPart2 = "MCD"
 
     "Solving day 5" - {
         "part 1 for the sample input should return the correct output" {
