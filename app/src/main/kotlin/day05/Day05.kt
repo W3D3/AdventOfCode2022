@@ -13,9 +13,24 @@ fun main(args: Array<String>) {
 }
 
 fun solveDay05Part1(input: List<String>): String {
-    println(input)
-    val split = input.split({ it.isBlank() })
-    val initialStrings = split.first().reversed()
+    val (initialConditions, instructions) = input.split({ it.isBlank() })
+    val map = generateStackMap(initialConditions)
+
+    for (instructionLine in instructions) {
+        val instruction = parseInstruction(instructionLine)
+
+        repeat(instruction.repetitions) {
+            val removed = map[instruction.origin]!!.removeLast()
+            map[instruction.target]?.addLast(removed)
+        }
+    }
+
+    return map.values.mapNotNull { it.lastOrNull() }
+        .joinToString(separator = "") { it.toString() }
+}
+
+private fun generateStackMap(split: Collection<String>): MutableMap<Int, ArrayDeque<Char>> {
+    val initialStrings = split.reversed()
 
     var numOfStacks: Int
     val map = mutableMapOf<Int, ArrayDeque<Char>>()
@@ -31,32 +46,17 @@ fun solveDay05Part1(input: List<String>): String {
                 .mapIndexed { i, s ->
                     println("""${i + 1} $s""")
                     if (s.isNotBlank()) {
-                        map[i]?.addLast(getChar(s)) ?: map.put(i, ArrayDeque(listOf(getChar(s))))
+                        map[i]?.addLast(getChar(s))
                     }
                 }
             println(map)
         }
     }
-
-    for (instructionLine in split.get(1)) {
-        val instruction = parseInstruction(instructionLine)
-
-        println(instruction)
-        for (i in 1..instruction.repetitions) {
-            val removed = map[instruction.origin]!!.removeLast()
-            map[instruction.target]?.addLast(removed)
-        }
-        println(map)
-    }
-
-
-    return map.values.mapNotNull { it.lastOrNull() }.joinToString(separator = "") { it.toString() }
+    return map
 }
 
 private fun getChar(boxSyntax: String): Char {
-    val boxRegex = """\[([A-Za-z])]""".toRegex()
-    return boxRegex.matchEntire(boxSyntax)?.groups?.get(0)?.value?.toCharArray()?.get(1)
-        ?: throw IllegalArgumentException()
+    return boxSyntax.toCharArray()[1]
 }
 
 data class Instruction(val repetitions: Int, val origin: Int, val target: Int)
@@ -74,41 +74,21 @@ private fun parseInstruction(line: String): Instruction {
 
 fun solveDay05Part2(input: List<String>): String {
     println(input)
-    val split = input.split({ it.isBlank() })
-    val initialStrings = split.first().reversed()
+    val (initialConditions, instructions) = input.split({ it.isBlank() })
+    val map = generateStackMap(initialConditions)
 
-    val map = mutableMapOf<Int, ArrayDeque<Char>>()
-    for ((index, initialString) in initialStrings.withIndex()) {
-        if (index == 0) {
-            val numOfStacks = initialString.split("""\w""".toRegex()).count()
-            (0..numOfStacks).forEach { i -> map[i] = ArrayDeque() }
-        } else {
-            initialString.windowed(3, 4)
-                .map { println(it); it }
-                .mapIndexed { i, s ->
-                    if (s.isNotBlank()) {
-                        map[i]?.addLast(getChar(s))
-                    }
-                }
-            println(map)
-        }
-    }
-
-    for (instructionLine in split[1]) {
+    for (instructionLine in instructions) {
         val instruction = parseInstruction(instructionLine)
 
-        println(instruction)
         val removedList = mutableListOf<Char>()
-        for (i in 1..instruction.repetitions) {
+        repeat(instruction.repetitions) {
             removedList.add(map[instruction.origin]!!.removeLast())
         }
         removedList.reversed().forEach {
             map[instruction.target]?.add(it)
         }
-
-        println(map)
     }
 
-
-    return map.values.mapNotNull { it.lastOrNull() }.joinToString(separator = "") { it.toString() }
+    return map.values.mapNotNull { it.lastOrNull() }
+        .joinToString(separator = "") { it.toString() }
 }
