@@ -77,21 +77,17 @@ fun solveDay05Part2(input: List<String>): String {
     val split = input.split({ it.isBlank() })
     val initialStrings = split.first().reversed()
 
-    var numOfStacks: Int
     val map = mutableMapOf<Int, ArrayDeque<Char>>()
     for ((index, initialString) in initialStrings.withIndex()) {
         if (index == 0) {
-            numOfStacks = initialString.split("""\w""".toRegex()).count()
-            for (i in 0..numOfStacks) {
-                map[i] = ArrayDeque()
-            }
+            val numOfStacks = initialString.split("""\w""".toRegex()).count()
+            (0..numOfStacks).forEach { i -> map[i] = ArrayDeque() }
         } else {
             initialString.windowed(3, 4)
                 .map { println(it); it }
                 .mapIndexed { i, s ->
-                    println("""${i + 1} $s""")
                     if (s.isNotBlank()) {
-                        map[i]?.addLast(getChar(s)) ?: map.put(i, ArrayDeque(listOf(getChar(s))))
+                        map[i]?.addLast(getChar(s))
                     }
                 }
             println(map)
