@@ -1,19 +1,17 @@
 package day06
 
-import io.kotest.core.annotation.Ignored
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 
-@Ignored
 class Day06Test : FreeSpec({
 
     val sampleInput: List<String> = listOf(
-        "3,4,3,1,2"
+        "mjqjpqmgbljsphdztnvjfqwrcgsmlb"
     )
 
-    val sampleSolutionPart1 = 5934
+    val sampleSolutionPart1 = 7
 
-    val sampleSolutionPart2 = 26_984_457_539
+    val sampleSolutionPart2 = 19
 
     "Solving day 6" - {
         "part 1 for the sample input should return the correct output" {

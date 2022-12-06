@@ -11,10 +11,14 @@ fun main(args: Array<String>) {
     solve(day, input, ::solveDay06Part1, ::solveDay06Part2)
 }
 
-fun solveDay06Part1(input: List<String>): Long {
-    TODO()
+private fun readCharsUntilAllUnique(list: List<Char>, windowSize: Int): Int {
+    return list.windowed(windowSize, 1).indexOfFirst { it.toSet().size == it.size } + windowSize
 }
 
-fun solveDay06Part2(input: List<String>): Long {
-    TODO()
+fun solveDay06Part1(input: List<String>): Int {
+    return readCharsUntilAllUnique(input.first().toCharArray().toList(), 4)
+}
+
+fun solveDay06Part2(input: List<String>): Int {
+    return readCharsUntilAllUnique(input.first().toCharArray().toList(), 14)
 }
