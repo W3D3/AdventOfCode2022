@@ -4,6 +4,7 @@ fun <T> List<T>.copyOf(): List<T> {
     return mutableListOf<T>().also { it.addAll(this) }
 }
 
+@Suppress("unused")
 fun <T> List<T>.mutableCopyOf(): MutableList<T> {
     return mutableListOf<T>().also { it.addAll(this) }
 }
@@ -37,4 +38,11 @@ fun <T> intersection(vararg collections: Collection<T>): Collection<T> {
 
 fun <T : Comparable<T>> ClosedRange<T>.fullyContains(range: ClosedRange<T>): Boolean {
     return this.contains(range.start) && this.contains(range.endInclusive)
+}
+
+fun <T> Sequence<T>.selectRecursive(recursiveSelector: T.() -> Sequence<T>): Sequence<T> = flatMap {
+    sequence {
+        yield(it)
+        yieldAll(it.recursiveSelector().selectRecursive(recursiveSelector))
+    }
 }
