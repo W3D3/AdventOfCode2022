@@ -3,7 +3,7 @@ package day07
 class FileNode<T>(val value: T, val parent: FileNode<T>?, val isDirectory: Boolean = true, fileSize: Int? = null) {
     val children: MutableList<FileNode<T>> = mutableListOf()
 
-    private var _size: Int? = null
+    private var _size: Int? = fileSize
     var size: Int
         get() {
             return if (this._size == null) {
@@ -15,12 +15,6 @@ class FileNode<T>(val value: T, val parent: FileNode<T>?, val isDirectory: Boole
         set(value) {
             _size = value
         }
-
-    init {
-        if (fileSize != null) {
-            this.size = fileSize
-        }
-    }
 
     fun toPath(): String {
         return buildString {

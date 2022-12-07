@@ -41,15 +41,13 @@ private fun generateStackMap(split: Collection<String>): MutableMap<Int, ArrayDe
                 map[i] = ArrayDeque()
             }
         } else {
-            initialString.windowed(3, 4)
-                .map { println(it); it }
+            initialString
+                .windowed(3, 4)
                 .mapIndexed { i, s ->
-                    println("""${i + 1} $s""")
                     if (s.isNotBlank()) {
                         map[i]?.addLast(getChar(s))
                     }
                 }
-            println(map)
         }
     }
     return map
@@ -73,7 +71,6 @@ private fun parseInstruction(line: String): Instruction {
 
 
 fun solveDay05Part2(input: List<String>): String {
-    println(input)
     val (initialConditions, instructions) = input.split({ it.isBlank() })
     val map = generateStackMap(initialConditions)
 
@@ -89,6 +86,7 @@ fun solveDay05Part2(input: List<String>): String {
         }
     }
 
-    return map.values.mapNotNull { it.lastOrNull() }
+    return map.values
+        .mapNotNull { it.lastOrNull() }
         .joinToString(separator = "") { it.toString() }
 }
