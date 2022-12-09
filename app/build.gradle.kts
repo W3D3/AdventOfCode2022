@@ -1,5 +1,5 @@
 plugins {
-    id("org.jetbrains.kotlin.jvm") version "1.5.31"
+    id("org.jetbrains.kotlin.jvm") version "1.6.21"
     application
 }
 
@@ -10,6 +10,9 @@ repositories {
 dependencies {
     implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+
+    implementation("org.jetbrains.kotlinx:multik-core:0.2.1")
+    implementation("org.jetbrains.kotlinx:multik-default:0.2.1")
 
     implementation("com.github.kittinunf.fuel:fuel:2.3.1")
 
