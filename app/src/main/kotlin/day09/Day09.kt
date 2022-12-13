@@ -69,19 +69,10 @@ fun solveDay09Part1(input: List<String>): Int {
     val tailVisited = mutableSetOf(tail)
     moves.forEach { (dir, repeat) ->
         repeat(repeat.toInt()) {
-//            printGrid(5, head, listOf(tail));
-
-            val head_new = head.move(dir)
-            val tail_new = tail.follow(head_new)
-            println("head: $head")
-            println("tail: $tail")
-
-            tailVisited.add(tail_new)
-            head = head_new
-            tail = tail_new
-            println()
+            head = head.move(dir)
+            tail = tail.follow(head)
+            tailVisited.add(tail)
         }
-
     }
 
     return tailVisited.size
@@ -89,7 +80,6 @@ fun solveDay09Part1(input: List<String>): Int {
 }
 
 fun printGrid(n: Int, head: Pos, tails: List<Pos>) {
-
     for (y in n downTo 0) {
         for (x in 0..n) {
             if (x == head.x && y == head.y) {
@@ -125,15 +115,13 @@ fun solveDay09Part2(input: List<String>): Int {
         repeat(repeat.toInt()) {
             printGrid(5, head, tails)
 
-            val head_new = head.move(dir)
+            head = head.move(dir)
             for ((index, tail) in tails.withIndex()) {
-                val currentFollowHead = if (index > 0) tails[index - 1] else head_new
+                val currentFollowHead = if (index > 0) tails[index - 1] else head
                 tails[index] = tail.follow(currentFollowHead)
             }
 
             tailVisited.add(tails[8])
-            head = head_new
-//            println()
         }
 
     }
