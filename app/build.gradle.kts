@@ -5,6 +5,9 @@ plugins {
 
 repositories {
     mavenCentral()
+    maven {
+        url = uri("https://jitpack.io")
+    }
 }
 
 dependencies {
@@ -13,6 +16,8 @@ dependencies {
 
     implementation("org.jetbrains.kotlinx:multik-core:0.2.1")
     implementation("org.jetbrains.kotlinx:multik-default:0.2.1")
+
+    implementation("com.github.Keelar:ExprK:master-SNAPSHOT")
 
     implementation("com.github.kittinunf.fuel:fuel:2.3.1")
 
