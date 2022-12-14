@@ -14,11 +14,11 @@ fun main(args: Array<String>) {
 
 data class Pos(val x: Int, val y: Int)
 
-data class Path(val a: Pos, val b: Pos, val isSand: Boolean = false) {
+data class Path(val a: Pos, val b: Pos) {
 
     private var fixedX: Boolean = false
     private var fixedAxis: Int = 0
-    var points: IntRange = 0..0
+    private var points: IntRange = 0..0
 
     init {
         if (a.x == b.x) {
@@ -42,71 +42,33 @@ data class Path(val a: Pos, val b: Pos, val isSand: Boolean = false) {
         }
     }
 
-    fun isOnPath(pos: Pos): Boolean {
+    fun getPositions(): List<Pos> {
         return if (fixedX) {
-            pos.x == fixedAxis && points.contains(pos.y)
+            points.map { Pos(fixedAxis, it) }
         } else {
-            pos.y == fixedAxis && points.contains(pos.x)
-        }
-    }
-
-    fun getPostions(): List<Pos> {
-        if (fixedX) {
-            return points.map { Pos(fixedAxis, it) }
-        } else {
-            return points.map { Pos(it, fixedAxis) }
+            points.map { Pos(it, fixedAxis) }
         }
     }
 
 }
 
 fun solveDay14Part1(input: List<String>): Int {
-    val paths = input.flatMap {
-        it.split(" -> ")
-            .map {
-                val p = it.trim().splitIntoPair(",")
-                Pos(p.first.toInt(), p.second.toInt())
-            }
-            .zipWithNext { a, b -> Path(a, b) }
-    }.toMutableList()
-    var cnt = 0
+    val takenPositions = parseInput(input)
 
     val sandOrigin = Pos(500, 0)
-    val pathBarrierDown = paths.maxOf { it.a.y.coerceAtLeast(it.b.y) }
+    val floorLevel = takenPositions.maxOf { it.y }
 
-    do {
-        val block = simulateSingleSandBlock(paths, sandOrigin, pathBarrierDown)
-
-        if (block != null) {
-            cnt++
-//            printCave(sandOrigin, block, paths)
-            paths.add(Path(block, block, isSand = true))
-        }
-    } while (block != null)
-//    printCave(sandOrigin, sandOrigin, paths)
-
-    return cnt
+    return simulateSand(takenPositions, sandOrigin, floorLevel, fallThrough = true)
 }
 
 
-fun printCave(source: Pos, current: Pos, paths: List<Path>, depth: Int) {
-    for (y in 0..depth) {
-        for (x in 400..520) {
-            if (paths.any { !it.isSand && it.isOnPath(Pos(x, y)) }) {
-                print("#")
-            } else if (paths.any { it.isSand && it.isOnPath(Pos(x, y)) }) {
-                print("o")
-            } else if (current.x == x && current.y == y) {
-                print("v")
-            } else if (source.x == x && source.y == y) {
-                print("+")
-            } else {
-                print(".")
-            }
-        }
-        println()
-    }
-    println()
+fun solveDay14Part2(input: List<String>): Int {
+    val takenPositions = parseInput(input)
+
+    val sandOrigin = Pos(500, 0)
+    val floorLevel = takenPositions.maxOf { it.y } + 2
+
+    return simulateSand(takenPositions, sandOrigin, floorLevel, fallThrough = false) + 1 // add one for source
 }
 
 fun printCave(source: Pos, current: Pos, points: Set<Pos>, depth: Int) {
@@ -114,8 +76,6 @@ fun printCave(source: Pos, current: Pos, points: Set<Pos>, depth: Int) {
         for (x in 400..520) {
             if (points.contains(Pos(x, y))) {
                 print("#")
-//            } else if (paths.any { it.isSand && it.isOnPath(Pos(x, y)) }) {
-//                print("o")
             } else if (current.x == x && current.y == y) {
                 print("o")
             } else if (source.x == x && source.y == y) {
@@ -129,33 +89,7 @@ fun printCave(source: Pos, current: Pos, points: Set<Pos>, depth: Int) {
     println()
 }
 
-fun simulateSingleSandBlock(paths: List<Path>, sandOrigin: Pos, pathBarrierDown: Int): Pos? {
-//    var pathBarrierDown = paths.maxOf { it.a.y.coerceAtLeast(it.b.y) }
-
-    var currentSandPos = sandOrigin
-    var nextSandPos = moveSand(currentSandPos, paths)
-//    printCave(sandOrigin, nextSandPos, paths)
-    while (nextSandPos != currentSandPos) {
-        currentSandPos = nextSandPos
-        nextSandPos = moveSand(currentSandPos, paths)
-//        printCave(sandOrigin, nextSandPos, paths)
-
-        if (nextSandPos.y > pathBarrierDown) {
-            // freefall detected
-            break
-        }
-        if (nextSandPos == currentSandPos) {
-            // we settled
-            return currentSandPos
-        }
-        if (nextSandPos == sandOrigin) {
-            return null
-        }
-    }
-    return null
-}
-
-fun simulateSingleSandBlock(points: Set<Pos>, sandOrigin: Pos, floorLevel: Int): Pos? {
+fun simulateSingleSandBlock(points: Set<Pos>, sandOrigin: Pos, floorLevel: Int, fallThrough: Boolean): Pos? {
     var currentSandPos = sandOrigin
     var nextSandPos = moveSand(currentSandPos, points)
 
@@ -167,9 +101,8 @@ fun simulateSingleSandBlock(points: Set<Pos>, sandOrigin: Pos, floorLevel: Int):
             // freefall detected
             break
         }
-        // pt2
-        if (nextSandPos.y == floorLevel) {
-            // cant go through
+        if (!fallThrough && nextSandPos.y == floorLevel) {
+            // cant go through floor
             return currentSandPos
         }
         if (nextSandPos == currentSandPos) {
@@ -181,22 +114,6 @@ fun simulateSingleSandBlock(points: Set<Pos>, sandOrigin: Pos, floorLevel: Int):
         }
     }
     return null
-}
-
-fun moveSand(currentSandPos: Pos, paths: List<Path>): Pos {
-    val down = Pos(currentSandPos.x, currentSandPos.y + 1)
-    val downLeft = Pos(currentSandPos.x - 1, currentSandPos.y + 1)
-    val downRight = Pos(currentSandPos.x + 1, currentSandPos.y + 1)
-
-    if (paths.none { it.isOnPath(down) }) {
-        return down
-    } else if (paths.none { it.isOnPath(downLeft) }) {
-        return downLeft
-    } else if (paths.none { it.isOnPath(downRight) }) {
-        return downRight
-    } else {
-        return currentSandPos
-    }
 }
 
 fun moveSand(currentSandPos: Pos, points: Set<Pos>): Pos {
@@ -215,32 +132,31 @@ fun moveSand(currentSandPos: Pos, points: Set<Pos>): Pos {
     }
 }
 
-fun solveDay14Part2(input: List<String>): Int {
-    val points = input.flatMap {
-        it.split(" -> ")
-            .map {
-                val p = it.trim().splitIntoPair(",")
-                Pos(p.first.toInt(), p.second.toInt())
-            }
-            .zipWithNext { a, b -> Path(a, b) }
-    }.flatMap { it.getPostions().toSet() }.toMutableSet()
+private fun simulateSand(
+    takenPositions: MutableSet<Pos>, sandOrigin: Pos, floorLevel: Int, fallThrough: Boolean
+): Int {
     var cnt = 0
-
-    val sandOrigin = Pos(500, 0)
-    val floorLevel = points.maxOf { it.y } + 2
-//    points.addAll(Path(Pos(Int.MIN_VALUE, floorLevel), Pos(Int.MAX_VALUE, floorLevel)).getPostions())
-
     do {
-        val block = simulateSingleSandBlock(points, sandOrigin, floorLevel)
+        val block = simulateSingleSandBlock(takenPositions, sandOrigin, floorLevel, fallThrough)
         if (block != null) {
             cnt++
             if (cnt % 1000 == 0) {
-                printCave(sandOrigin, block, points, depth = floorLevel + 1)
+                printCave(sandOrigin, block, takenPositions, depth = floorLevel + 1)
             }
-            points.add(block)
+            takenPositions.add(block)
         }
     } while (block != null)
-//    printCave(sandOrigin, sandOrigin, points, floorLevel + 1)
+    printCave(sandOrigin, sandOrigin, takenPositions, floorLevel + 1)
 
-    return cnt + 1 // add one for source
+    return cnt
+}
+
+private fun parseInput(input: List<String>): MutableSet<Pos> {
+    val takenPositions = input.flatMap {
+        it.split(" -> ").map {
+            val p = it.trim().splitIntoPair(",")
+            Pos(p.first.toInt(), p.second.toInt())
+        }.zipWithNext { a, b -> Path(a, b) }
+    }.flatMap { it.getPositions().toSet() }.toMutableSet()
+    return takenPositions
 }
