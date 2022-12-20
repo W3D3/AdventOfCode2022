@@ -189,7 +189,6 @@ private fun simulateDrops(
         val stateHash = stateHash(airPushIndex, shapeIndex, occupiedPositions, height)
         if (stateMap.contains(stateHash)) {
             // found loop!
-            println("found loop")
             val (previousHeight, previousShapesDropped) = stateMap[stateHash]!!
             val cycleHeight = height - previousHeight
             val cycleShapeCount = shapesCount - previousShapesDropped
