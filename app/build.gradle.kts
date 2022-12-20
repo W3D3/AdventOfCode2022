@@ -1,5 +1,5 @@
 plugins {
-    id("org.jetbrains.kotlin.jvm") version "1.6.21"
+    id("org.jetbrains.kotlin.jvm") version "1.7.20"
     application
 }
 
@@ -18,6 +18,8 @@ dependencies {
     implementation("org.jetbrains.kotlinx:multik-default:0.2.1")
 
     implementation("com.github.Keelar:ExprK:master-SNAPSHOT")
+    implementation("com.ginsberg:cirkle:1.0.1")
+    implementation("com.beust:klaxon:5.5")
 
     implementation("com.github.kittinunf.fuel:fuel:2.3.1")
 
