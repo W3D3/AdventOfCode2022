@@ -23,10 +23,25 @@ To run all the solutions with the example test data, run:
 
 ## Solutions
 
-| Day | Title                                                             | Solution                                           |
-|-----|-------------------------------------------------------------------|----------------------------------------------------|
-| 1   | 🍔 [Calorie Counting](https://adventofcode.com/2022/day/1)        | **[Day01.kt](app/src/main/kotlin/day01/Day01.kt)** |
-| 2   | 🪨📄✂️ [Rock Paper Scissors](https://adventofcode.com/2022/day/2) | **[Day02.kt](app/src/main/kotlin/day02/Day02.kt)** |
-| 3   | 🎒 [Rucksack Reorganization](https://adventofcode.com/2022/day/3) | **[Day03.kt](app/src/main/kotlin/day03/Day03.kt)** |
-| 4   | 🧹 [Camp Cleanup](https://adventofcode.com/2022/day/4)            | **[Day04.kt](app/src/main/kotlin/day04/Day04.kt)** |
-| 5   | 📦 [Supply Stacks](https://adventofcode.com/2022/day/5)           | **[Day05.kt](app/src/main/kotlin/day05/Day05.kt)** |
+| Day | Title                                                               | Solution                                           |
+|-----|---------------------------------------------------------------------|----------------------------------------------------|
+| 1   | 🍔 [Calorie Counting](https://adventofcode.com/2022/day/1)          | **[Day01.kt](app/src/main/kotlin/day01/Day01.kt)** |
+| 2   | 🪨📄✂️ [Rock Paper Scissors](https://adventofcode.com/2022/day/2)   | **[Day02.kt](app/src/main/kotlin/day02/Day02.kt)** |
+| 3   | 🎒 [Rucksack Reorganization](https://adventofcode.com/2022/day/3)   | **[Day03.kt](app/src/main/kotlin/day03/Day03.kt)** |
+| 4   | 🧹 [Camp Cleanup](https://adventofcode.com/2022/day/4)              | **[Day04.kt](app/src/main/kotlin/day04/Day04.kt)** |
+| 5   | 📦 [Supply Stacks](https://adventofcode.com/2022/day/5)             | **[Day05.kt](app/src/main/kotlin/day05/Day05.kt)** |
+| 6   | 📡 [Tuning Trouble](https://adventofcode.com/2022/day/6)            | **[Day06.kt](app/src/main/kotlin/day06/Day06.kt)** |
+| 7   | 📟 [No Space Left On Device](https://adventofcode.com/2022/day/7)   | **[Day07.kt](app/src/main/kotlin/day07/Day07.kt)** |
+| 8   | 🌳 [Treetop Tree House](https://adventofcode.com/2022/day/8)        | **[Day08.kt](app/src/main/kotlin/day08/Day08.kt)** |
+| 9   | 🪢 [Rope Bridge](https://adventofcode.com/2022/day/9)               | **[Day09.kt](app/src/main/kotlin/day09/Day09.kt)** |
+| 10  | 📺 [Cathode-Ray Tube](https://adventofcode.com/2022/day/10)         | **[Day10.kt](app/src/main/kotlin/day10/Day10.kt)** |
+| 11  | 🐒 [Monkey in the Middle](https://adventofcode.com/2022/day/11)     | **[Day11.kt](app/src/main/kotlin/day11/Day11.kt)** |
+| 12  | ⛰️ [Hill Climbing Algorithm](https://adventofcode.com/2022/day/12)  | **[Day12.kt](app/src/main/kotlin/day12/Day12.kt)** |
+| 13  | 📦 [Distress Signal](https://adventofcode.com/2022/day/13)          | **[Day13.kt](app/src/main/kotlin/day13/Day13.kt)** |
+| 14  | ⏳️ [Regolith Reservoir](https://adventofcode.com/2022/day/14)       | **[Day14.kt](app/src/main/kotlin/day14/Day14.kt)** |
+| 15  | 📡 [Beacon Exclusion Zone](https://adventofcode.com/2022/day/15)    | **[Day15.kt](app/src/main/kotlin/day15/Day15.kt)** |
+| 16  | 🌋 [Proboscidea Volcanium](https://adventofcode.com/2022/day/16)    | WIP                                                |
+| 17  | 🪨 [Pyroclastic Flow](https://adventofcode.com/2022/day/17)         | **[Day17.kt](app/src/main/kotlin/day17/Day17.kt)** |
+| 18  | 🫖 [Boiling Boulders](https://adventofcode.com/2022/day/18)         | WIP                                                |
+| 19  | 🤖 [Not Enough Minerals](https://adventofcode.com/2022/day/19)      | WIP                                                |
+| 20  | 🌳 [Grove Positioning System](https://adventofcode.com/2022/day/20) | WIP                                                |
