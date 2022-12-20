@@ -17,6 +17,29 @@ fun main(args: Array<String>) {
     solve(day, input, ::solveDay17Part1, ::solveDay17Part2)
 }
 
+private const val RIGHT_WALL_X = 8L
+private const val LEFT_WALL_X = 0L
+private const val FLOOR_Y = 0L
+
+fun solveDay17Part1(input: List<String>): Long {
+    val possibleShapes = listOf(Shape.HORIZONTAL_LINE, Shape.PLUS, Shape.MIRRORED_L, Shape.VERTICAL_LINE, Shape.BOX)
+    val airPushes = parseAirPushes(input)
+
+    val totalShapesToDrop = 2022L
+
+    return simulateDrops(totalShapesToDrop, possibleShapes, airPushes)
+}
+
+
+fun solveDay17Part2(input: List<String>): Long {
+    val possibleShapes = listOf(Shape.HORIZONTAL_LINE, Shape.PLUS, Shape.MIRRORED_L, Shape.VERTICAL_LINE, Shape.BOX)
+    val airPushes = parseAirPushes(input)
+
+    val totalShapesToDrop = 1_000_000_000_000
+
+    return simulateDrops(totalShapesToDrop, possibleShapes, airPushes)
+}
+
 sealed class Shape(val colliderMatrix: D2Array<Int>) {
 
     var pos = Coord(0, 0)
@@ -71,38 +94,6 @@ sealed class Shape(val colliderMatrix: D2Array<Int>) {
     object BOX : Shape(colliderMatrix = mk.ones(2, 2))
 
 }
-
-fun solveDay17Part1(input: List<String>): Long {
-    val possibleShapes = listOf(Shape.HORIZONTAL_LINE, Shape.PLUS, Shape.MIRRORED_L, Shape.VERTICAL_LINE, Shape.BOX)
-    val airPushes = parseAirPushes(input)
-
-    val occupiedPositions = mutableSetOf<Coord>()
-    var j = 0
-    for (i in 0 until 2022) {
-        val shape = possibleShapes[i % possibleShapes.size]
-        val startX = 3L
-        val startY = (occupiedPositions.maxOfOrNull { it.y } ?: 0) + 4
-        shape.pos = Coord(startX, startY)
-
-        do {
-            val airPush = airPushes[j % airPushes.size]
-            j++
-
-            tryMove(shape, occupiedPositions, airPush)
-
-            if (!tryMove(shape, occupiedPositions, Coord.DOWN)) break
-
-        } while (true)
-        occupiedPositions.addAll(shape.getOccupiedPositions())
-    }
-
-    return occupiedPositions.map { it.y }.max()
-}
-
-private const val RIGHT_WALL_X = 8L
-
-private const val LEFT_WALL_X = 0L
-private const val FLOOR_Y = 0L
 
 private fun tryMove(shape: Shape, occupiedPositions: MutableSet<Coord>, dir: Coord): Boolean {
     val possiblePosition = shape.movePositions(dir)
@@ -160,67 +151,56 @@ fun printGrid(n: Long, m: Long, marker: Set<Coord>) {
     println()
 }
 
-fun solveDay17Part2(input: List<String>): Long {
-    val possibleShapes = listOf(Shape.HORIZONTAL_LINE, Shape.PLUS, Shape.MIRRORED_L, Shape.VERTICAL_LINE, Shape.BOX)
-    val airPushes = parseAirPushes(input)
+private fun simulateDrops(
+    totalShapeCount: Long,
+    possibleShapes: List<Shape>,
+    airPushes: List<Coord>
+): Long {
+    var shapesCount = 0L
+    var airPushesCount = 0L
 
-    var height = LEFT_WALL_X
-    val stateMap = mutableMapOf<State, StateMeta>()
     val occupiedPositions = mutableSetOf<Coord>()
-    var j = LEFT_WALL_X
-    val TOTAL_SHAPES = 1_000_000_000_000
-//    val TOTAL_SHAPES = 2022
-    var skippedHeight = LEFT_WALL_X;
+    val stateMap = mutableMapOf<State, StateMeta>()
 
-    var i = LEFT_WALL_X;
-    while (i in 0 until TOTAL_SHAPES) {
-//    for (i in 0 until TOTAL_SHAPES) {
-        val shapeIndex = (i % possibleShapes.size).toInt()
+    var height = 0L
+    var skippedHeight = 0L
+
+    while (shapesCount in 0 until totalShapeCount) {
+        val shapeIndex = (shapesCount % possibleShapes.size).toInt()
         val shape = possibleShapes[shapeIndex]
         val startX = 3L
         val startY = (occupiedPositions.maxOfOrNull { it.y } ?: 0) + 4 //+ shape.height - 1
         shape.pos = Coord(startX, startY)
 
-//        println("${shape} starts falling at ${shape.pos}")
-//        printGrid(8, startY, droppedShapes.flatMap { it.getOccupiedPositions() }.toSet())
         var airPushIndex: Int
-        do {
-            airPushIndex = (j % airPushes.size).toInt()
+        while (true) {
+            airPushIndex = (airPushesCount % airPushes.size).toInt()
             val airPush = airPushes[airPushIndex]
-            j++
+            airPushesCount++
 
             tryMove(shape, occupiedPositions, airPush)
 
-//            println("${shape.name} got moved $airPush: $movedAir")
-//            printGrid(8, startY, droppedShapes.flatMap { it.getOccupiedPositions() }.toSet())
             if (!tryMove(shape, occupiedPositions, Coord.DOWN)) break
-
-//            println("${shape.name} got moved down by gravity.")
-//            printGrid(8, startY, droppedShapes.flatMap { it.getOccupiedPositions() }.toSet())
-
-        } while (true)
+        }
         // shape has settled
         occupiedPositions.addAll(shape.getOccupiedPositions())
         height = max(shape.getOccupiedPositions().maxOf { it.y }, height)
-        println(height)
 
         val stateHash = stateHash(airPushIndex, shapeIndex, occupiedPositions, height)
         if (stateMap.contains(stateHash)) {
             // found loop!
             println("found loop")
-            val (previousHeight, shapesDropped) = stateMap[stateHash]!!
-            val cycleHeight = height - previousHeight;
-            val cycleShapeCount = i - shapesDropped
-            val remainingShapes = (TOTAL_SHAPES - i) / cycleShapeCount
+            val (previousHeight, previousShapesDropped) = stateMap[stateHash]!!
+            val cycleHeight = height - previousHeight
+            val cycleShapeCount = shapesCount - previousShapesDropped
+            val remainingShapes = (totalShapeCount - shapesCount) / cycleShapeCount
 
-            i += remainingShapes * cycleShapeCount;
+            shapesCount += remainingShapes * cycleShapeCount
             skippedHeight += cycleHeight * remainingShapes
         } else {
-            stateMap[stateHash] = StateMeta(height, i)
+            stateMap[stateHash] = StateMeta(height, shapesCount)
         }
-//        println("${shape.name} settled in at ${shape.pos}.")
-//        printGrid(8, startY, droppedShapes.flatMap { it.getOccupiedPositions() }.toSet())
-        i++
+        shapesCount++
     }
 
     return height + skippedHeight
