@@ -1,16 +1,29 @@
 package day21
 
-import io.kotest.core.annotation.Ignored
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 
-@Ignored
 class Day21Test : FreeSpec({
 
-    val sampleInput: List<String> = listOf(
-    )
+    val sampleInput: List<String> = """
+        root: pppw + sjmn
+        dbpl: 5
+        cczh: sllz + lgvd
+        zczc: 2
+        ptdq: humn - dvpt
+        dvpt: 3
+        lfqf: 4
+        humn: 5
+        ljgn: 2
+        sjmn: drzm * dbpl
+        sllz: 4
+        pppw: cczh / lfqf
+        lgvd: ljgn * ptdq
+        drzm: hmdt - zczc
+        hmdt: 32
+    """.trimIndent().split("\n")
 
-    val sampleSolutionPart1: Int = -1
+    val sampleSolutionPart1 = 152
 
     val sampleSolutionPart2: Int = -1
 
