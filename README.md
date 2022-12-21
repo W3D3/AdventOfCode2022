@@ -42,6 +42,7 @@ To run all the solutions with the example test data, run:
 | 15  | 📡 [Beacon Exclusion Zone](https://adventofcode.com/2022/day/15)    | **[Day15.kt](app/src/main/kotlin/day15/Day15.kt)** |
 | 16  | 🌋 [Proboscidea Volcanium](https://adventofcode.com/2022/day/16)    | WIP                                                |
 | 17  | 🪨 [Pyroclastic Flow](https://adventofcode.com/2022/day/17)         | **[Day17.kt](app/src/main/kotlin/day17/Day17.kt)** |
-| 18  | 🫖 [Boiling Boulders](https://adventofcode.com/2022/day/18)         | WIP                                                |
+| 18  | 🫖 [Boiling Boulders](https://adventofcode.com/2022/day/18)         | **[Day18.kt](app/src/main/kotlin/day18/Day18.kt)** |
 | 19  | 🤖 [Not Enough Minerals](https://adventofcode.com/2022/day/19)      | WIP                                                |
 | 20  | 🌳 [Grove Positioning System](https://adventofcode.com/2022/day/20) | WIP                                                |
+| 20  | 🔢 [Monkey Math](https://adventofcode.com/2022/day/21)              | **[Day21.kt](app/src/main/kotlin/day21/Day21.kt)** |
